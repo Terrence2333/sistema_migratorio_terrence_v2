@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main-container">
+    <h2>Bitácora de Control: Persistencia de Archivos</h2>
+    
+    <div class="data-grid">
+        <div class="panel">
+            <h3>Datos desde TXT</h3>
+            <pre>{{ contenido_txt }}</pre>
+        </div>
+        
+        <div class="panel">
+            <h3>Datos desde JSON</h3>
+            <ul>
+                {% for item in contenido_json %}
+                <li>{{ item.nombre }} - {{ item.cantidad }} - ${{ item.precio }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="panel">
+            <h3>Datos desde CSV</h3>
+            <table>
+                {% for row in contenido_csv %}
+                <tr><td>{{ row[0] }}</td><td>{{ row[1] }}</td><td>{{ row[2] }}</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+   
