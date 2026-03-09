@@ -6,18 +6,18 @@ from flask import Flask, render_template, request, redirect, url_for
 from inventario.bd import db, Producto
 from inventario.productos import guardar_datos_ejecutivo
 
-# --- CORRECCIÓN DE RUTAS ABSOLUTAS ---
+# --- CONFIGURACIÓN DE RUTA ABSOLUTA ---
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 
-# Definimos la ruta de la DB dentro de inventario/data/
+# Definimos la ruta de la base de datos
 db_path = os.path.join(basedir, 'inventario', 'data', 'base.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
-# Crear tablas al iniciar
+# Crear tablas al iniciar si no existen
 with app.app_context():
     db.create_all()
 
@@ -40,7 +40,6 @@ def agregar():
 
 @app.route('/datos')
 def datos():
-    # Usamos rutas basadas en 'basedir' para asegurar que encuentre los archivos
     ruta_txt = os.path.join(basedir, "inventario", "data", "datos.txt")
     ruta_json = os.path.join(basedir, "inventario", "data", "datos.json")
     ruta_csv = os.path.join(basedir, "inventario", "data", "datos.csv")
@@ -61,5 +60,3 @@ def datos():
 
 if __name__ == '__main__':
     app.run()
-
-
