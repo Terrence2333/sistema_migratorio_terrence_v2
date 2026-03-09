@@ -6,22 +6,25 @@
         <form action="/agregar" method="POST">
             <input type="text" name="nombre" placeholder="Nombre" required>
             <input type="number" name="cantidad" placeholder="Cantidad" required>
-            <button type="submit">Guarad vía ORM</button>
+            <input type="number" step="0.01" name="precio" placeholder="Precio" required>
+            <button type="submit">Guardar vía ORM</button>
         </form>
     </div>
-    <div class="panel" style="width: 400px;">
-        <h3>GESTIÓN CON SQLALCHEMY ORM</h3>
+    <div class="panel">
+        <h3>GESTIÓN CON SQLALCHEMY</h3>
         <table>
-            <tr><th>ID</th><th>Nombre</th><th>Cant.</th><th>Acciones</th></tr>
-            {% for p in productos %}
-            <tr><td>{{ p.id }}</td><td>{{ p.nombre }}</td><td>{{ p.cantidad }}</td><td>X</td></tr>
-            {% endfor %}
+            <thead><tr><th>ID</th><th>Nombre</th><th>Cant.</th></tr></thead>
+            <tbody>
+                {% for p in productos %}
+                <tr><td>{{ p.id }}</td><td>{{ p.nombre }}</td><td>{{ p.cantidad }}</td></tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
     <div class="panel">
-        <h3>CANALS DE ENLACE</h3>
-        <button>facebook</button> <button>test</button>
+        <h3>CANALES DE ENLACE</h3>
+        <button>facebook</button>
+        <button>test</button>
     </div>
 </div>
 {% endblock %}
-
