@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="glass-panel">
+                <h2 class="text-accent">PANEL DE REPORTES Y ANALÍTICA // V4.2</h2>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card bg-dark text-white p-3">
+                            <h4>TOTAL PRODUCTOS</h4>
+                            <p id="total-count">0</p>
+                        </div>
+                    </div>
+                    </div>
+                <table class="table table-dark mt-4">
+                    <thead>
+                        <tr><th>ID</th><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Estado</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for log in logs %}
+                        <tr>
+                            <td>{{ log.id }}</td>
+                            <td>{{ log.timestamp }}</td>
+                            <td>{{ log.usuario }}</td>
+                            <td>{{ log.accion }}</td>
+                            <td>{{ log.estado }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
