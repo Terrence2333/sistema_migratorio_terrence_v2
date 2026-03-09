@@ -6,11 +6,20 @@ from flask import Flask, render_template, request, redirect, url_for
 from inventario.bd import db, Producto
 from inventario.productos import guardar_datos_ejecutivo
 
-# Configuración del sistema
-sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+# --- CORRECCIÓN DE RUTAS ABSOLUTAS ---
+basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/base.db'
+
+# Definimos la ruta de la DB dentro de inventario/data/
+db_path = os.path.join(basedir, 'inventario', 'data', 'base.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db.init_app(app)
+
+# Crear tablas al iniciar
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def index():
@@ -22,32 +31,28 @@ def agregar():
     cantidad = int(request.form['cantidad'])
     precio = float(request.form['precio'])
     
-    # Guardar en SQLite (ORM)
     nuevo_prod = Producto(nombre=nombre, cantidad=cantidad, precio=precio)
     db.session.add(nuevo_prod)
     db.session.commit()
     
-    # Guardar en archivos (TXT/JSON/CSV)
     guardar_datos_ejecutivo(nombre, cantidad, precio)
-    
     return redirect(url_for('index'))
 
 @app.route('/datos')
 def datos():
-    # Leer TXT
-    ruta_txt = "inventario/data/datos.txt"
+    # Usamos rutas basadas en 'basedir' para asegurar que encuentre los archivos
+    ruta_txt = os.path.join(basedir, "inventario", "data", "datos.txt")
+    ruta_json = os.path.join(basedir, "inventario", "data", "datos.json")
+    ruta_csv = os.path.join(basedir, "inventario", "data", "datos.csv")
+    
     txt = open(ruta_txt, "r").read() if os.path.exists(ruta_txt) else "Sin datos aún."
     
-    # Leer JSON
-    ruta_json = "inventario/data/datos.json"
     if os.path.exists(ruta_json):
         with open(ruta_json, "r") as f:
             try: js = json.load(f)
             except: js = []
     else: js = []
     
-    # Leer CSV
-    ruta_csv = "inventario/data/datos.csv"
     if os.path.exists(ruta_csv):
         with open(ruta_csv, "r") as f: csv_data = list(csv.reader(f))
     else: csv_data = []
@@ -55,5 +60,6 @@ def datos():
     return render_template('datos.html', contenido_txt=txt, contenido_json=js, contenido_csv=csv_data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
+
 
