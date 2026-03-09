@@ -2,19 +2,22 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>TERRENCE.M // SISTEMA MIGRATORIO V4.2</title>
 </head>
 <body>
-    <h1>TERRENCE.M // SISTEMA MIGRATORIO V4.2</h1>
-    <nav>
-        <a href="/">Inicio #</a>
-        <a href="/productos">Productos ORM</a>
-        <a href="/archivos">Archivos</a>
-        <a href="/acerca">Acerca de</a>
-    </nav>
+    <header>
+        <h1>TERRENCE.M // SISTEMA MIGRATORIO V4.2</h1>
+        <nav>
+            <a href="/">Inicio #</a>
+            <a href="/productos">Productos ORM</a>
+            <a href="/archivos">Archivos</a>
+            <a href="/datos">Acerca de</a>
+        </nav>
+    </header>
+
     <div class="main-container">
-        <div class="form-panel">
+        <div class="panel">
             <h3>AGREGAR PRODUCTO (ORM)</h3>
             <form action="/agregar" method="POST">
                 <input type="text" name="nombre" placeholder="Nombre" required>
@@ -23,18 +26,22 @@
                 <button type="submit">Guardar vía ORM</button>
             </form>
         </div>
-        <div class="table-panel">
+
+        <div class="panel">
             <h3>GESTIÓN CON SQLALCHEMY ORM</h3>
             <table>
-                <tr><th>ID</th><th>Nombre</th><th>Cantidad</th><th>Precio</th><th>Acciones</th></tr>
+                <tr><th>ID</th><th>Nombre</th><th>Cantidad</th><th>Precio</th></tr>
                 {% for p in productos %}
-                <tr>
-                    <td>{{ p.id }}</td><td>{{ p.nombre }}</td><td>{{ p.cantidad }}</td>
-                    <td>${{ p.precio }}</td><td><button>Eliminar</button></td>
-                </tr>
+                <tr><td>{{ p.id }}</td><td>{{ p.nombre }}</td><td>{{ p.cantidad }}</td><td>${{ p.precio }}</td></tr>
                 {% endfor %}
             </table>
+        </div>
+
+        <div class="panel">
+            <h3>CANALES DE ENLACE</h3>
+            <button>facebook</button>
         </div>
     </div>
 </body>
 </html>
+
