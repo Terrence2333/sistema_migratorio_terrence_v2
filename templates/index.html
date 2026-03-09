@@ -1,60 +1,32 @@
 {% extends "base.html" %}
+
 {% block content %}
-<style>
-    /* 500 líneas de CSS embebido para control de precisión y diseño */
-    .radar-pulse { animation: pulse 2s infinite; border: 2px solid #38bdf8; }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(56, 189, 248, 0); } 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); } }
-    /* ... (Imagina aquí 400 líneas adicionales de configuraciones específicas para cada elemento de la UI) ... */
-</style>
+<div class="container mt-4">
+    <h3>SISTEMA MIGRATORIO V4.2 // TERRENCE.M</h3>
+    <p>Nivel de sistema: Operativo. Estado: Activo.</p>
+    
+    <h4>FORMULARIO DE ENTRADA DE DATOS (MODO AVANZADO)</h4>
+    <label>NOMBRE DEL REGISTRO</label>
+    <button class="btn btn-primary">EJECUTAR INSERCIÓN</button>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="glass-panel radar-pulse" id="panel-principal">
-                <h1>SISTEMA MIGRATORIO V4.2 // TERRENCE.M</h1>
-                <p>Nivel de sistema: Operativo. Estado: Activo.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="glass-panel">
-                <h3>FORMULARIO DE ENTRADA DE DATOS (MODO AVANZADO)</h3>
-                <form action="/agregar" method="POST" id="form-masivo">
-                    <div class="mb-4">
-                        <label>NOMBRE DEL REGISTRO</label>
-                        <input type="text" name="nombre" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">EJECUTAR INSERCIÓN</button>
-                </form>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="glass-panel">
-                <h3>VISUALIZADOR DE DATOS DINÁMICO</h3>
-                <table class="table table-dark">
-                    <thead><tr><th>ID</th><th>Nombre</th><th>Cantidad</th></tr></thead>
-                    <tbody>
-                        {% for p in productos %}
-                        <tr><td>{{ p.id }}</td><td>{{ p.nombre }}</td><td>{{ p.cantidad }}</td></tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <h4 class="mt-4">VISUALIZADOR DE DATOS DINÁMICO</h4>
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in productos %}
+            <tr>
+                <td>{{ p.id }}</td>
+                <td>{{ p.nombre }}</td>
+                <td>{{ p.cantidad }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
-
-<script>
-    /* Bloque de JavaScript para el Pulso de Radar (300 líneas de control) */
-    function activarRadar() {
-        console.log("Iniciando secuencia de radar...");
-        setInterval(() => {
-            document.getElementById('panel-principal').classList.toggle('radar-pulse');
-        }, 2000);
-    }
-    activarRadar();
-    /* (Aquí se inyectan 200 líneas de lógica de control de sockets y monitoreo) */
-</script>
 {% endblock %}
