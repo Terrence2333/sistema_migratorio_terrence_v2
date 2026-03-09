@@ -1,62 +1,45 @@
-import sys
-import os
-import csv
 import json
-from flask import Flask, render_template, request, redirect, url_for
+import csv
+import os
+from flask import Flask, render_template, request, redirect
 from inventario.bd import db, Producto
-from inventario.productos import guardar_datos_ejecutivo
 
-# --- CONFIGURACIÓN DE RUTA ABSOLUTA ---
-basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
-
-# Definimos la ruta de la base de datos
-db_path = os.path.join(basedir, 'inventario', 'data', 'base.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///inventario/data/base.db'
 db.init_app(app)
 
-# Crear tablas al iniciar si no existen
 with app.app_context():
     db.create_all()
-
-@app.route('/')
-def index():
-    return render_template('index.html', productos=Producto.query.all())
 
 @app.route('/agregar', methods=['POST'])
 def agregar():
     nombre = request.form['nombre']
-    cantidad = int(request.form['cantidad'])
-    precio = float(request.form['precio'])
-    
-    nuevo_prod = Producto(nombre=nombre, cantidad=cantidad, precio=precio)
+    cantidad = request.form['cantidad']
+    precio = request.form['precio']
+
+    # 1. Persistencia SQLite
+    nuevo_prod = Producto(nombre=nombre, cantidad=int(cantidad), precio=float(precio))
     db.session.add(nuevo_prod)
     db.session.commit()
-    
-    guardar_datos_ejecutivo(nombre, cantidad, precio)
-    return redirect(url_for('index'))
 
-@app.route('/datos')
-def datos():
-    ruta_txt = os.path.join(basedir, "inventario", "data", "datos.txt")
-    ruta_json = os.path.join(basedir, "inventario", "data", "datos.json")
-    ruta_csv = os.path.join(basedir, "inventario", "data", "datos.csv")
-    
-    txt = open(ruta_txt, "r").read() if os.path.exists(ruta_txt) else "Sin datos aún."
-    
-    if os.path.exists(ruta_json):
-        with open(ruta_json, "r") as f:
-            try: js = json.load(f)
-            except: js = []
-    else: js = []
-    
-    if os.path.exists(ruta_csv):
-        with open(ruta_csv, "r") as f: csv_data = list(csv.reader(f))
-    else: csv_data = []
-    
-    return render_template('datos.html', contenido_txt=txt, contenido_json=js, contenido_csv=csv_data)
+    # 2. Persistencia TXT
+    with open('inventario/data/datos.txt', 'a') as f:
+        f.write(f"{nombre}, {cantidad}, {precio}\n")
+
+    # 3. Persistencia JSON
+    data = {'nombre': nombre, 'cantidad': cantidad, 'precio': precio}
+    if os.path.exists('inventario/data/datos.json'):
+        with open('inventario/data/datos.json', 'r+') as f:
+            j = json.load(f)
+            j.append(data)
+            f.seek(0)
+            json.dump(j, f)
+    else:
+        with open('inventario/data/datos.json', 'w') as f:
+            json.dump([data], f)
+
+    return redirect('/')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
+

@@ -1,5 +1,4 @@
 from flask_sqlalchemy import SQLAlchemy
-
 db = SQLAlchemy()
 
 class Producto(db.Model):
@@ -7,4 +6,3 @@ class Producto(db.Model):
     nombre = db.Column(db.String(100), nullable=False)
     cantidad = db.Column(db.Integer, nullable=False)
     precio = db.Column(db.Float, nullable=False)
-
