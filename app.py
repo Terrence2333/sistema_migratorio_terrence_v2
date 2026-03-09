@@ -1,37 +1,34 @@
-import json
-import csv
-import os
 from flask import Flask, render_template, request
+from flask_sqlalchemy import SQLAlchemy
+import csv, json, os
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///productos.db'
+db = SQLAlchemy(app)
 
-def leer_datos():
-    datos = []
-    # Leer de CSV si existe
-    if os.path.exists("productos.csv"):
-        with open("productos.csv", "r") as f:
-            reader = csv.reader(f)
-            for row in reader:
-                if row: datos.append({"nombre": row[0], "cantidad": row[1], "precio": row[2]})
-    return datos
+class Producto(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100))
+    cantidad = db.Column(db.Integer)
+    precio = db.Column(db.Float)
+
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def index():
-    return render_template('index.html', productos=leer_datos())
+    productos = Producto.query.all()
+    return render_template('index.html', productos=productos)
 
-@app.route('/guardar', methods=['POST'])
-def guardar():
-    nombre = request.form.get('nombre')
-    cantidad = request.form.get('cantidad')
-    precio = request.form.get('precio')
-    formato = request.form.get('formato')
-    
-    # Lógica de guardado (mantenemos la de CSV para que la tabla funcione)
-    with open("productos.csv", "a", newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow([nombre, cantidad, precio])
-        
-    return "Registro guardado. <a href='/'>Volver</a>"
+@app.route('/agregar', methods=['POST'])
+def agregar():
+    nuevo = Producto(nombre=request.form['nombre'], cantidad=int(request.form['cantidad']), precio=float(request.form['precio']))
+    db.session.add(nuevo)
+    db.session.commit()
+    # Guardar copia en CSV para persistencia de archivos
+    with open("productos_backup.csv", "a") as f:
+        f.write(f"{nuevo.nombre},{nuevo.cantidad},{nuevo.precio}\n")
+    return index()
 
 if __name__ == '__main__':
     app.run(debug=True)
