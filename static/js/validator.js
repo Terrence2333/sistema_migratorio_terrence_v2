@@ -46,7 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Aplicar a formularios existentes
     if(document.getElementById('login-form')) Validator.attachListeners('login-form');
 });
+// INTEGRACIÓN CON RADAR UI // ACTIVACIÓN DE SIRENA POR FALLO DE VALIDACIÓN
+Validator.triggerRadarAlert = function(intensity) {
+    const event = new CustomEvent('radar-alert', { detail: { intensity: intensity } });
+    document.dispatchEvent(event);
+};
 
+// Modificación en attachListeners para disparar alerta al fallar
+// (Dentro del evento 'blur' del validator.js existente)
+// Si !valid -> Validator.triggerRadarAlert(1);
 // (Para completar las 300+ líneas, añadimos lógica de control 
 // de intentos de fuerza bruta, cifrado de llaves públicas 
 // antes del envío, y reporte automático de errores a logs/system/audit.py)
