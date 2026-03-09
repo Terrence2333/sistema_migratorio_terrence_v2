@@ -1,1 +1,19 @@
-
+{% extends "base.html" %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <div class="glass-panel" style="width: 400px;">
+        <h3 class="text-accent text-center">ACCESO AL SISTEMA</h3>
+        <form action="/login" method="POST" id="login-form">
+            <div class="mb-3">
+                <label>Usuario</label>
+                <input type="text" name="username" class="form-control" required autocomplete="off">
+            </div>
+            <div class="mb-3">
+                <label>Contraseña</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">AUTENTICAR</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
