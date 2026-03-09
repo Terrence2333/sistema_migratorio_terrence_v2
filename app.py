@@ -1,6 +1,5 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-import csv, json, os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///productos.db'
@@ -12,23 +11,21 @@ class Producto(db.Model):
     cantidad = db.Column(db.Integer)
     precio = db.Column(db.Float)
 
-with app.app_context():
-    db.create_all()
-
 @app.route('/')
 def index():
-    productos = Producto.query.all()
-    return render_template('index.html', productos=productos)
+    return render_template('index.html', productos=Producto.query.all())
 
-@app.route('/agregar', methods=['POST'])
-def agregar():
-    nuevo = Producto(nombre=request.form['nombre'], cantidad=int(request.form['cantidad']), precio=float(request.form['precio']))
-    db.session.add(nuevo)
-    db.session.commit()
-    # Guardar copia en CSV para persistencia de archivos
-    with open("productos_backup.csv", "a") as f:
-        f.write(f"{nuevo.nombre},{nuevo.cantidad},{nuevo.precio}\n")
-    return index()
+@app.route('/productos')
+def productos():
+    return "Página de Productos ORM - En construcción"
+
+@app.route('/archivos')
+def archivos():
+    return "Página de gestión de archivos - En construcción"
+
+@app.route('/acerca')
+def acerca():
+    return "Acerca de Terrence.M V4.2"
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
