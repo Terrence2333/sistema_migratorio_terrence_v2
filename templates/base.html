@@ -1,38 +1,16 @@
-<div>{% extends "base.html" %}
-{% block content %}</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h4>AUDITORÍA TXT (Sistema)</h4>
-        <pre>{{ contenido_txt }}</pre>
-    </div>
-
-    <div class="col-md-4">
-        <h4>ESTRUCTURA JSON (Data)</h4>
-        <pre>{{ contenido_json }}</pre>
-    </div>
-
-    <div class="col-md-4">
-        <h4>REPORTE CSV (Export)</h4>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in contenido_csv %}
-                <tr>
-                    <td>{{ row[0] }}</td>
-                    <td>{{ row[1] }}</td>
-                    <td>{{ row[2] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SISTEMA MIGRATORIO V4.2</title>
+</head>
+<body>
+    <nav>
+        <a href="/">Inicio</a> | <a href="/ver-usuarios">Usuarios</a>
+    </nav>
+    <hr>
+    
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

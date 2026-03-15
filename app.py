@@ -1,34 +1,31 @@
-"""
-PUNTO DE ENTRADA // SISTEMA MIGRATORIO TERRENCE.M V4.2
-ORQUESTADOR DE MÓDULOS Y API
-"""
 from flask import Flask, render_template
-from inventario.bd import db
-from core.api.routes import api_blueprint
-import os
+import mysql.connector
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-key-default')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../instance/terrence.db'
 
-# Registro de rutas de API
-app.register_blueprint(api_blueprint)
-
-# Inicialización de BD
-db.init_app(app)
+def obtener_conexion():
+    return mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='',
+        database='sistema_migratorio_terrence'
+    )
 
 @app.route('/')
 def index():
-    """Ruta principal."""
-    return render_template('index.html')
-
-@app.route('/login')
-def login():
-    """Vista de acceso."""
-    return render_template('login.html')
+    datos = []
+    try:
+        conn = obtener_conexion()
+        cursor = conn.cursor(dictionary=True)
+        # Asegúrate de que los nombres de columnas sean correctos
+        cursor.execute("SELECT id, nombre, cantidad FROM usuarios") 
+        datos = cursor.fetchall()
+        cursor.close()
+        conn.close()
+    except Exception as e:
+        print(f"Error de base de datos: {e}")
+    
+    return render_template('index.html', productos=datos)
 
 if __name__ == '__main__':
-    # Creación de tablas bajo demanda
-    with app.app_context():
-        db.create_all()
     app.run(debug=True, port=5000)
