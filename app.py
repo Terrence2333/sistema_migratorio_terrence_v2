@@ -1,5 +1,6 @@
 from flask import Flask, render_template
-from Conexión.conexion import obtener_conexion
+# Nota: Ahora usamos 'Conexion' sin tilde
+from Conexion.conexion import obtener_conexion
 
 app = Flask(__name__)
 

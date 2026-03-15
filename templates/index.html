@@ -1,38 +1,59 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SISTEMA MIGRATORIO V4.2</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #003a66; color: #333; margin: 0; }
+        .header { background: #003a66; color: white; padding: 20px; text-align: center; background-image: linear-gradient(rgba(0,58,102,0.8), rgba(0,58,102,0.8)), url('https://www.transparenttextures.com/patterns/world-map.png'); }
+        .nav-bar { background: #e0eaf0; padding: 10px; display: flex; justify-content: center; gap: 40px; font-weight: bold; }
+        .main-container { display: grid; grid-template-columns: 300px 1fr 250px; gap: 20px; padding: 20px; }
+        .card { background: #f0f4f8; padding: 15px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #e0eaf0; }
+        .btn { background: #007bff; color: white; border: none; padding: 10px; cursor: pointer; width: 100%; }
+        input { width: 90%; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="header"><h1>TERRENCE.M // SISTEMA MIGRATORIO V4.2</h1></div>
+    <div class="nav-bar"><span>Inicio #</span><span>Productos ORM</span><span>Archivos</span><span>Acerca de</span></div>
 
-{% block content %}
-    <h1>SISTEMA MIGRATORIO V4.2 // TERRENCE.M</h1>
-    <p>Nivel de sistema: Operativo. Estado: Activo.</p>
+    <div class="main-container">
+        <div class="card">
+            <h3>AGREGAR PRODUCTO (ORM)</h3>
+            <form>
+                Nombre: <input type="text" name="nombre">
+                Cantidad: <input type="text" name="cantidad">
+                <button class="btn">Guardar vía ORM</button>
+            </form>
+        </div>
 
-    <hr>
-    <h3>FORMULARIO DE ENTRADA DE DATOS (MODO AVANZADO)</h3>
-    <input type="text" placeholder="NOMBRE DEL REGISTRO">
-    <button>EJECUTAR INSERCIÓN</button>
+        <div class="card">
+            <h3>GESTIÓN CON SQLALCHEMY ORM</h3>
+            <input type="text" placeholder="Busca por nombre..."> <button>Busca</button>
+            <table>
+                <thead>
+                    <tr><th>ID</th><th>Nombre</th><th>Email</th><th>Password</th></tr>
+                </thead>
+                <tbody>
+                    {% for p in productos %}
+                    <tr>
+                        <td>{{ p.idusuarios }}</td>
+                        <td>{{ p.nombre }}</td>
+                        <td>{{ p.mailcol }}</td>
+                        <td>{{ p.password }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-    <hr>
-    <h3>VISUALIZADOR DE DATOS DINÁMICO</h3>
-
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Cantidad</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for p in productos %}
-            <tr>
-                <td>{{ p.id }}</td>
-                <td>{{ p.nombre }}</td>
-                <td>{{ p.cantidad }}</td>
-            </tr>
-            {% else %}
-            <tr>
-                <td colspan="3">No hay datos en la tabla usuarios.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-        
-    </table>
-{% endblock %}
+        <div class="card">
+            <h3>CANALS DE ENLACE</h3>
+            <button class="btn">facebook</button>
+        </div>
+    </div>
+</body>
+</html>
