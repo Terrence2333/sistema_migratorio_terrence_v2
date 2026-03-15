@@ -4,28 +4,30 @@
     <meta charset="UTF-8">
     <title>SISTEMA MIGRATORIO V4.2</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #004a80; color: #333; margin: 0; }
-        .header { background: #003a66; color: white; padding: 25px; text-align: center; }
-        .navbar { background: #dceaf5; padding: 10px; display: flex; justify-content: center; gap: 30px; font-weight: bold; border-bottom: 3px solid #ffcc00; }
-        .container { display: grid; grid-template-columns: 320px 1fr 280px; gap: 20px; padding: 20px; }
-        .card { background: #eaf2f8; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-        table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; }
-        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-        th { background: #f2f2f2; }
-        .btn { background: #007bff; color: white; border: none; padding: 10px; cursor: pointer; width: 100%; margin-top: 10px; font-weight: bold; }
-        input { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #1a5276; color: #fff; margin: 0; }
+        .header { background: #154360; padding: 30px; text-align: center; border-bottom: 4px solid #f1c40f; background-image: url('https://www.transparenttextures.com/patterns/world-map.png'); }
+        .nav-bar { background: #d6eaf8; color: #154360; padding: 15px; display: flex; justify-content: center; gap: 30px; font-weight: bold; }
+        .main-container { display: grid; grid-template-columns: 320px 1fr 280px; gap: 20px; padding: 25px; }
+        .card { background: #ebf5fb; color: #154360; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+        h3 { border-bottom: 2px solid #154360; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; background: #fff; margin-top: 15px; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+        th { background: #2e86c1; color: white; }
+        .btn { background: #2874a6; color: white; border: none; padding: 12px; cursor: pointer; width: 100%; font-weight: bold; }
+        input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; box-sizing: border-box; }
+        .del-btn { color: red; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="header"><h1>TERRENCE.M // SISTEMA MIGRATORIO V4.2</h1></div>
-    <div class="navbar"><span>Inicio #</span><span>Productos ORM</span><span>Archivos</span><span>Acerca de</span></div>
+    <div class="nav-bar"><span>Inicio #</span><span>Productos</span><span>Archivos</span><span>Acerca de</span></div>
 
-    <div class="container">
+    <div class="main-container">
         <div class="card">
             <h3>AGREGAR PRODUCTO (ORM)</h3>
             <form action="/insertar" method="POST">
                 <input type="text" name="nombre" placeholder="Nombre" required>
-                <input type="text" name="mailcol" placeholder="Email" required>
+                <input type="text" name="mailcol" placeholder="Mail" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <button type="submit" class="btn">Guardar vía ORM</button>
             </form>
@@ -33,17 +35,19 @@
 
         <div class="card">
             <h3>GESTIÓN CON SQLALCHEMY ORM</h3>
+            <input type="text" placeholder="Busca por nombre...">
             <table>
-                <tr><th>ID</th><th>Nombre</th><th>Email</th><th>Password</th></tr>
+                <tr><th>ID</th><th>Nombre</th><th>Email</th><th>Password</th><th>Acción</th></tr>
                 {% for p in productos %}
                 <tr>
                     <td>{{ p.idusuarios }}</td>
                     <td>{{ p.nombre }}</td>
                     <td>{{ p.mailcol }}</td>
                     <td>{{ p.password }}</td>
+                    <td class="del-btn">X</td>
                 </tr>
                 {% else %}
-                <tr><td colspan="4">No hay datos.</td></tr>
+                <tr><td colspan="5">No hay datos en tabla usuarios.</td></tr>
                 {% endfor %}
             </table>
         </div>
@@ -51,7 +55,7 @@
         <div class="card">
             <h3>CANALS DE ENLACE</h3>
             <button class="btn">facebook</button>
-            <button class="btn">test</button>
+            <button class="btn" style="margin-top:10px;">test</button>
         </div>
     </div>
 </body>

@@ -2,15 +2,27 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SISTEMA MIGRATORIO V4.2</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 0; background-color: #f4f7f6; }
+        nav { background: #003a66; padding: 15px; color: white; }
+        nav a { color: white; text-decoration: none; margin-right: 20px; font-weight: bold; }
+        .container { padding: 20px; }
+        hr { border: 0; height: 1px; background: #ccc; margin: 20px 0; }
+    </style>
 </head>
 <body>
+
     <nav>
-        <a href="/">Inicio</a> | <a href="/ver-usuarios">Usuarios</a>
+        <a href="/">Inicio</a> | 
+        <a href="/">Usuarios</a>
     </nav>
-    <hr>
-    
-    {% block content %}
-    {% endblock %}
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
 </body>
 </html>

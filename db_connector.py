@@ -11,7 +11,7 @@ def obtener_conexion():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password='',  # Si tienes contraseña, ponla aquí
+        password='', 
         database='sistema_migratorio_terrence'
     )
 import os
