@@ -1,15 +1,7 @@
 from flask import Flask, render_template
-import mysql.connector
+from Conexión.conexion import obtener_conexion
 
 app = Flask(__name__)
-
-def obtener_conexion():
-    return mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='',
-        database='sistema_migratorio_terrence'
-    )
 
 @app.route('/')
 def index():
@@ -17,7 +9,6 @@ def index():
     try:
         conn = obtener_conexion()
         cursor = conn.cursor(dictionary=True)
-        # Asegúrate de que los nombres de columnas sean correctos
         cursor.execute("SELECT id, nombre, cantidad FROM usuarios") 
         datos = cursor.fetchall()
         cursor.close()
